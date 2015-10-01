@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Experiencia MacMedio</title>
+    <meta name="description" content="Experiencia interactiva con Marshall McLuhan" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <style>
+      * { margin: 0; padding: 0;  }
+      body {background: black; font: 13px Helvetica, Arial; text-align: center}
+
+      ul#opciones{margin-top: 25%;}
+      ul#opciones li{ background:rgb(137,137,137); color: white; display: inline-block; height: 9em; width: 12em; padding: .5em; border-radius: 2em; cursor: pointer; border: .3em solid white; margin: .3em .1em}
+      li:hover{
+       background: rgb(231,231,231);
+      }
+      #botones_vd{
+        position: absolute;
+        top: 1em;
+        right: 3em;
+      }
+
+      #botones_vd li{ background:rgb(257,257,257); color: white; display: inline-block; height: 3em; width: 3em; padding: .3em; border-radius: 8em; cursor: pointer; border: .3em solid white; z-index: 30; }
+
+      #prueba{z-index: 10;}
+
+      cite{display:inline-block; color: white; margin-top:3%; font-size: 1.3em}
+
+
+      @media screen and (max-width: 1325px){
+      article#ElVideo{display: none;}
+}
+
+     
+    </style>
+  </head>
+  <body>
+
+    <article id="ElVideo">
+     <video id='prueba' class="v" src="http://192.168.100.11/MacluhanExp/mcluhan/mcluhan.mp4"
+             autobuffer allowfullscreen="true"></video>
+    </article>
+    
+    <ul id="opciones">
+      <li id='boton-1'><img src="http://192.168.100.11/MacluhanExp/mcluhan/mc_btn/01intro.png" width="80%" height="100%"></li>
+      <li id='boton-2'><img src="http://192.168.100.11/MacluhanExp/mcluhan/mc_btn/02Ballesta.svg" width="80%" height="100%"></li>
+      <li id='boton-3'><img src="http://192.168.100.11/MacluhanExp/mcluhan/mc_btn/03Plant.svg" width="80%" height="100%"></li>
+      <li id='boton-4'><img src="http://192.168.100.11/MacluhanExp/mcluhan/mc_btn/04Mundo.svg" width="80%" height="100%"></li>
+    </ul>
+
+    <ul id="botones_vd">
+      <li id='boton-5'><img src="http://192.168.100.11/MacluhanExp/mcluhan/mc_btn/play.svg" width="80%" height="100%"></li>
+      <li id='boton-6'><img src="http://192.168.100.11/mcluhan/MacluhanExp/mc_btn/pause.svg" width="80%" height="100%"></li>
+      <li id='boton-7'><img src="http://192.168.100.11/mcluhan/MacluhanExp/mc_btn/fullscreen.svg" width="80%" height="100%"></li>
+      <li id='boton-8'><img src="http://192.168.100.11/mcluhan/MacluhanExp/mc_btn/REset.svg" width="80%" height="100%"></li>
+    </ul>
+    <cite>Selecciona una opción</cite>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>   
+    <script>
+
+/*_____Botones y NodeJs funciones_____*/
+
+function jump(time) {
+prueba.currentTime = time;
+};
+
+var prueba = document.getElementById("prueba");
+
+prueba.play();
+setTimeout(function() {
+  prueba.pause();
+}, 28100);
+
+function evalVideo(elem){
+  // elemento -> elem
+if (elem.requestFullscreen) {
+  elem.requestFullscreen();
+ // alert('sin prefijo');
+} else if (elem.msRequestFullscreen) {
+  elem.msRequestFullscreen();
+ // alert('ms');
+} else if (elem.mozRequestFullScreen) {
+  elem.mozRequestFullScreen();
+ //  alert('moz')
+} else if (elem.webkitRequestFullscreen) {
+  elem.webkitRequestFullScreen();
+ //  alert('webkit')
+}
+}
+
+function botones(contenido) {
+  alert(contenido)
+}
+
+
+  var socket = io();
+  $('form').submit(function(){
+    socket.emit('chat message', $('#m').val());
+    $('#m').val('');
+    return false;
+  });
+
+$('#boton-1').click(function() {
+  socket.emit('chat message', 'boton-1');
+  return false;
+});
+
+$('#boton-2').click(function() {
+  socket.emit('chat message', 'boton-2');
+  return false;
+});
+
+$('#boton-3').click(function() {
+  socket.emit('chat message', 'boton-3');
+  return false;
+});
+
+$('#boton-4').click(function() {
+  socket.emit('chat message', 'boton-4');
+  return false;
+});
+$('#boton-5').click(function() {
+  socket.emit('chat message', 'boton-5');
+  return false;
+});
+$('#boton-6').click(function() {
+  socket.emit('chat message', 'boton-6');
+  return false;
+});
+
+$('#boton-7').click(function() {
+  socket.emit('chat message', 'boton-7');
+  return false;
+});
+
+$('#boton-8').click(function() {
+  socket.emit('chat message', 'boton-8');
+  return false;
+});
+
+  socket.on('chat message', function(msg){
+    // eval(msg);
+     // $('#messages').append($('<li>').text(msg));
+     switch(msg) {
+      case 'boton-1':
+         jump(1.22);
+         prueba.play();
+         console.log('intro');
+      break;
+      case 'boton-2':
+         jump(31.10);
+         prueba.play();
+         console.log('Ballesta');
+      break;
+      case 'boton-3':
+          jump(64.4);
+          prueba.play();
+          console.log('planta');         
+          // prueba.fullScreen();
+      break;
+      case 'boton-4':
+          jump(94.26);
+          prueba.play();
+          console.log('mundo');         
+          // prueba.fullScreen();
+      break;
+      case 'boton-5':
+          prueba.play()
+          console.log('Play');         
+      break;
+      case 'boton-6':
+          prueba.pause()
+          console.log('pause');         
+      break;
+      case 'boton-7':
+          $("#prueba").css({
+  "position":"fixed",
+  "width":"100%","height":"100%","top":"0","left":"0","z-index":"5000"
+});
+          console.log('fullscreen happen');         
+      break;
+      case 'boton-8':
+          location.reload()
+          /*prueba.webkitRequestFullScreen();*/
+          console.log('Recarga de página');         
+      break;
+     }
+  });
+
+
+// evalVideo(prueba);  
+
+</script>
+
+  </body>
+</html>
